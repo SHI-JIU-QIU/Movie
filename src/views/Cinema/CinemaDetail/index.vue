@@ -15,16 +15,16 @@
 
                 <div class="text-white">
                     <div class="mb-4">影院服务</div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">改签</span><span
+                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;&ensp;退&ensp;&ensp;&ensp;</span><span
+                            class="text-xs">未取票用户放映前60分钟可退票</span></div>
+                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;改签&ensp;&ensp;</span><span
                             class="text-xs">未取票用户放映前60分钟可改签</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">改签</span><span
-                            class="text-xs">未取票用户放映前60分钟可改签</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">改签</span><span
-                            class="text-xs">未取票用户放映前60分钟可改签</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">改签</span><span
-                            class="text-xs">未取票用户放映前60分钟可改签</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">改签</span><span
-                            class="text-xs">未取票用户放映前60分钟可改签</span></div>
+                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">3D眼镜收费</span><span
+                            class="text-xs">3D眼镜需自备或到影院购买3元/副起</span></div>
+                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">儿童优惠</span><span
+                            class="text-xs">1.3m以下儿童免费（无座须家长陪同）</span></div>
+                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;WiFi&ensp;&ensp;</span><span
+                            class="text-xs">影院有免费wifi</span></div>
                 </div>
             </div>
         </div>
