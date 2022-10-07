@@ -123,7 +123,7 @@
 import bg from '@/assets/banner.png'
 
 import { ref, onMounted } from 'vue'
-import { defineComponent } from 'vue'
+
 import { Carousel, Pagination, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
 import {apiSelectCinemaById} from '@/api/cinema'
@@ -139,7 +139,7 @@ const toPay = () =>{
 
 let cinema = ref({} as any)
 const route = useRoute()
-apiSelectCinemaById({id:route.query.id}).then((result)=>{
+apiSelectCinemaById({id:route.query.cinemaId}).then((result)=>{
     if(result.code==200){
         cinema.value = result.data
         cinema.value.cinemaScore = cinema.value.cinemaScore / 2

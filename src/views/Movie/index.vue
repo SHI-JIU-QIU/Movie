@@ -9,15 +9,15 @@
 
     <div class="movieType">
       <!-- 类型 -->
-      <div class="type">
+      <!-- <div class="type">
         <span>类型：</span>
         <ul class="type-list">
           <li v-for="item in type"><a href="#">{{ item }}</a></li>
         </ul>
-      </div>
+      </div> -->
 
       <!-- 区域 -->
-      <div class="area">
+      <!-- <div class="area">
         <span>区域：</span>
         <ul class="area-list">
           <li><a href="#">悬疑</a></li>
@@ -43,10 +43,10 @@
           <li><a href="#">悬疑</a></li>
           <li><a href="#">悬疑</a></li>
         </ul>
-      </div>
+      </div> -->
 
       <!-- 年代 -->
-      <div class="year">
+      <!-- <div class="year">
         <span>年代：</span>
         <ul class="year-list">
           <li><a href="#">2022</a></li>
@@ -71,8 +71,8 @@
           <li><a href="#">2022</a></li>
           <li><a href="#">2022</a></li>
         </ul>
-      </div>
-    </div>
+      </div>-->
+    </div> 
 
     <!-- sort -->
     <div class="sort" v-if="route.path.includes('hotplaylist')">
@@ -217,8 +217,8 @@ watch(radio, (newValue) => {
 
 .movieType {
   max-width: calc(1200px - 50px);
-  border: 1px solid rgb(216, 216, 216);
-  margin: 24px auto;
+  /* border: 1px solid rgb(216, 216, 216); */
+  margin: 100px auto;
   padding: 0 20px;
   color: rgb(89, 89, 89);
 }

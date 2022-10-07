@@ -23,3 +23,14 @@ export const apiSelectCinemaById = (data:any)=>{
         }
     })
 }
+
+
+export const apiGetCinemaByMovieId = (data:any) => {
+    return serve({
+        url: '/selectDetailCinema',
+        method: 'GET',
+        params:{
+            id:data.id
+        }
+    })
+}

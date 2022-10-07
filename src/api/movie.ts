@@ -22,6 +22,7 @@ export const apiGetMovieById = (data: any) => {
         params: { id: data }
     })
 }
+
 export const apiGetCarouselImg = () => {
     return serve({
         url: '/selectMovieByCarousel',

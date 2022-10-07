@@ -20,7 +20,7 @@
 <script setup lang='ts'>
 
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 type Props = {
     cinema: any
@@ -30,11 +30,13 @@ const { cinema } = defineProps<Props>()
 const cinemaScore = ref(cinema.cinemaScore / 2)
 
 const router = useRouter()
+const route = useRoute()
 const toCinemaDetail = () => {
     router.push({
         name: 'CinemaDetail',
         query: {
-            id: cinema.id
+            cinemaId: cinema.id,
+            movieId: route.query.movieId
         }
     })
 }

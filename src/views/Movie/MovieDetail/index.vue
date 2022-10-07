@@ -18,7 +18,7 @@
                             {{ movieDetail?.movieCountry }}上映</span></div>
                     <div class=" flex flex-col flex-1 justify-center ">
                         <el-button color=" white" round class="mb-4 w-40" @click="toComment">评分</el-button>
-                        <el-button color=" #df2d2d" round class="w-40">购票</el-button>
+                        <el-button color=" #df2d2d" round class="w-40" @click="toCinemaList">购票</el-button>
                     </div>
                 </div>
 
@@ -98,6 +98,8 @@ import { ref, onMounted, onBeforeMount, nextTick } from 'vue'
 import CommentCard from '@/components/CommentCard/index.vue';
 import { useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus'
+import { apiGetCinemaByMovieId } from '@/api/cinema';
+import router from '@/router';
 
 
 
@@ -171,6 +173,15 @@ const addComment = () => {
                 commentList.value = movieDetail.value?.commentList
             }
         })
+    })
+}
+
+const toCinemaList = () => {
+    router.push({
+        name: 'Cinema',
+        query: {
+            movieId: route.query.id
+        }
     })
 }
 
