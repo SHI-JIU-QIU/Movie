@@ -106,7 +106,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 (flag: boolean) => {
                     if (flag) {
                         router.push({
-                            name: 'Home'
+                            name: 'Login'
                         })
                         ElNotification({
                             title: 'Success',

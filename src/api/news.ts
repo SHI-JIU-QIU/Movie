@@ -6,3 +6,13 @@ export const apiGetHotNews = () => {
         method: 'GET',
     })
 }
+
+export const apiGetNewsById = (data:any) => {
+    return serve({
+        url: '/selectConsultById',
+        method: 'GET',
+        params:{
+            id:data.id
+        }
+    })
+}

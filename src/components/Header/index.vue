@@ -2,16 +2,18 @@
   <!-- 头部 -->
   <div class="header overflow-hidden">
     <!-- nav -->
-    <el-menu :default-active="activeIndex" class="nav" mode="horizontal" :ellipsis="false" @select="handleSelect">
+    <el-menu :default-active="route.name" class="nav" mode="horizontal" :ellipsis="false" @select="handleSelect">
       <el-menu-item index="0">LOGO</el-menu-item>
       <div class="flex-grow" />
-      <el-menu-item index="1" @click="toHome">首页</el-menu-item>
-      <el-menu-item index="2" @click="toMovie">电影</el-menu-item>
-      <el-menu-item index="3" @click="toCinema">影院</el-menu-item>
-      <el-menu-item index="4" @click="toNews">资讯</el-menu-item>
+      <el-menu-item index="page" @click="toHome">首页</el-menu-item>
+      <el-menu-item :index="route.path.slice(1, 6)" @click="toMovie">电影</el-menu-item>
+      <el-menu-item index="Cinema" @click="toCinema">影院</el-menu-item>
+      <el-menu-item index="News" @click="toNews">资讯</el-menu-item>
 
       <!-- 搜索 -->
-      <el-input v-model="input2" class="search" placeholder="Please Input" :suffix-icon="Search" type="text" />
+      <el-input v-model="input2" class="search" placeholder="搜索 电影" type="text"><template #append>
+          <el-button :icon="Search" @click="toSearch" />
+        </template></el-input>
 
       <!-- 头像 -->
       <el-sub-menu index="6" class="avatar">
@@ -20,19 +22,21 @@
             <el-avatar :src="avatar" />
           </div>
         </template>
-        <el-menu-item index="6-1" v-if="Object.keys(user).length==0" @click="toLogin">登录/注册</el-menu-item>
-        <el-menu-item index="6-2" v-if="Object.keys(user).length!=0">个人中心</el-menu-item>
-        <el-menu-item index="6-3" @click="exit" v-if="Object.keys(user).length!=0">退出登录</el-menu-item>
+        <el-menu-item index="6-1" v-if="Object.keys(user).length == 0" @click="toLogin">登录/注册</el-menu-item>
+        <el-menu-item index="6-2" v-if="Object.keys(user).length != 0" @click="toUser">个人中心</el-menu-item>
+        <el-menu-item index="6-3" @click="exit" v-if="Object.keys(user).length != 0">退出登录</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw, computed ,inject} from "vue";
+import { ref, toRaw, computed, inject } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
 import useStore from '@/store/index'
+import { useCookies } from "@vueuse/integrations/useCookies"
+import { apilogout } from "@/api/user";
 
 const { userStore } = useStore()
 
@@ -82,21 +86,39 @@ const toNews = () => {
   })
 }
 
-const toLogin =()=>{
+const toLogin = () => {
   router.push({
     name: 'Login'
   })
 }
+const toUser = () => {
+  router.push({
+    name: 'User'
+  })
+}
+
+
+const cookie = useCookies()
 const reload = inject<Function>('reload') as Function
 const exit = (): void => {
+
   userStore.$reset()
   localStorage.removeItem('pinia-userStore')
+  apilogout()
 
   reload()
   console.log('exit');
-  
+
 }
 
+const toSearch = () => {
+  router.push({
+    name: 'SearchPage',
+    query: {
+      keyword: input2.value
+    }
+  })
+}
 
 </script>
 

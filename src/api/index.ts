@@ -1,11 +1,15 @@
 import axios from 'axios'
-
+import qs from 'qs'
 const serve = axios.create({
     baseURL: '/api',
-    timeout: 10000
+    timeout: 20000
 })
 serve.interceptors.request.use(function (config) {
-
+    if (config.method === 'post' || config.method === 'POST') {
+        config.paramsSerializer = function (params) {
+            return qs.stringify(params, { arrayFormat: 'repeat' })
+        }
+    }
     return config;
 }, function (error) {
 
@@ -14,7 +18,8 @@ serve.interceptors.request.use(function (config) {
 
 
 serve.interceptors.response.use(function (response) {
-
+ 
+    
     return response.data;
 }, function (error) {
 

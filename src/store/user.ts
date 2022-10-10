@@ -1,13 +1,22 @@
 import { defineStore } from "pinia"
-import { apiLogin ,apiRegister } from '@/api/user'
+import { apiLogin, apiRegister ,apiGetUserById} from '@/api/user'
 
 
-
+interface User {
+    avatar: string
+    email: string
+    header?: string
+    id: number
+    password: string
+    phone: string
+    type: number
+    username: string
+}
 
 export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
-            user: {}
+            user: {} as User
         }
     },
 
@@ -22,19 +31,28 @@ export const useUserStore = defineStore('userStore', {
                 return true
             }
             else {
-                return false                
+                return false
             }
         },
         async reqRegister(data: any) {
-            let result =  await apiRegister(data)
+            let result = await apiRegister(data)
             console.log(result);
-            
-            if (result.code==200) {
-                this.user = result
+            if (result.code == 200) {
+                this.user = result.data
                 return true
             }
             else {
-                return false                
+                return false
+            }
+        },
+        async reqGetUserById(data: any) {
+            let result = await apiGetUserById(data)
+            if (result.code == 200) {
+                this.user = result.data
+                return true
+            }
+            else {
+                return false
             }
         }
     }

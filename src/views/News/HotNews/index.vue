@@ -1,28 +1,28 @@
 <template>
   <div class="hot-news">
-    <h4 class="hot-news-title">热门资讯</h4>
+
     <ul>
       <li class="top-list">
-        <div class="top">
+        <div class="top" @click="toNewsDetail(hotNews[0].id)">
           <a href="#">
-            <img src="#" alt>
+            <img v-if="hotNews.length" :src="`data:image/jpg;base64,` + hotNews[0].img">
             <i class="ranking">1</i>
           </a>
           <span class="top1-list-content">
-            <a href="#">电影，也被称为运动画面或动态画面，即“映画”，是作品视觉艺术形式，通过使用移动图像来表达沟通思想，故事，认知，情感，价值观，或各类大气模拟体验。</a>
+            <a href="#" v-if="hotNews[0]">{{ hotNews[0].consultContent }}</a>
           </span>
         </div>
 
       </li>
 
 
-      <li>
+      <li v-for="(item,index) in hotNews.slice(1, hotNews.length)" @click="toNewsDetail(item.id)">
         <div class="normal-link">
-          <i class="ranking">2</i>
+          <i class="ranking">{{index+2}}</i>
           <p class="top10-content">
             <a href="#">
               <span class="normal-text">
-              电影，也被称为运动画面或动态画面，即“映画”，是作品视觉艺术形式，通过使用移动图像来表达沟通思想，故事，认知，情感，价值观，或各类大气模拟体验。
+               {{item.consultContent}}
               </span>
             </a>
           </p>
@@ -35,6 +35,24 @@
 </template>
 
 <script setup lang="ts">
+import {useRouter} from 'vue-router';
+
+
+type Props = {
+  hotNews: any[]
+}
+
+const { hotNews } = defineProps<Props>()
+console.log(hotNews);
+const router = useRouter()
+const toNewsDetail = (id:number) => {
+  router.push({
+    name:'NewsDetail',
+    query:{
+      id:id
+    }
+  })
+}
 
 </script>
 
@@ -138,7 +156,7 @@ h4 {
   text-overflow: ellipsis;
 }
 
-.top10-content{
+.top10-content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

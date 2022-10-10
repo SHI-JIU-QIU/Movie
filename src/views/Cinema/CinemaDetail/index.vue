@@ -2,76 +2,80 @@
     <div>
         <div class="h-300px " :style="`background-image:url(${bg})`">
             <div class="flex h-300px items-center max-w-1200px mx-auto justify-center">
-                
+
                 <div class="w-250px h-250px mr-30 bg-white flex justify-center items-center">
-                    <img class="w-240px h-240px" :src="`data:image/jpg;base64,` +cinema.cinemaImg" alt="">
+                    <img v-if="cinema.cinemaImg" class="w-240px h-240px" :src="`data:image/jpg;base64,` + cinema.cinemaImg" alt="">
                 </div>
-                
+
                 <div class="text-white mr-30">
-                    <div class="text-3xl">{{cinema.cinemaName}}</div>
-                    <div class="my-2">{{cinema.cinemaAddress}}</div>
-                    <div>  <el-rate v-model="cinema.cinemaScore" disabled text-color="#ff9900" /></div>
+                    <div class="text-3xl">{{ cinema.cinemaName }}</div>
+                    <div class="my-2">{{ cinema.cinemaAddress }}</div>
+                    <div>
+                        <el-rate v-model="cinema.cinemaScore" disabled text-color="#ff9900" />
+                    </div>
                 </div>
 
                 <div class="text-white">
                     <div class="mb-4">影院服务</div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;&ensp;退&ensp;&ensp;&ensp;</span><span
+                    <div class="mb-2"><span
+                            class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;&ensp;退&ensp;&ensp;&ensp;</span><span
                             class="text-xs">未取票用户放映前60分钟可退票</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;改签&ensp;&ensp;</span><span
+                    <div class="mb-2"><span
+                            class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;改签&ensp;&ensp;</span><span
                             class="text-xs">未取票用户放映前60分钟可改签</span></div>
                     <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">3D眼镜收费</span><span
                             class="text-xs">3D眼镜需自备或到影院购买3元/副起</span></div>
                     <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">儿童优惠</span><span
                             class="text-xs">1.3m以下儿童免费（无座须家长陪同）</span></div>
-                    <div class="mb-2"><span class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;WiFi&ensp;&ensp;</span><span
+                    <div class="mb-2"><span
+                            class="text-xs border-1 border-white p-1 mr-2">&ensp;&ensp;WiFi&ensp;&ensp;</span><span
                             class="text-xs">影院有免费wifi</span></div>
                 </div>
             </div>
         </div>
 
-        <Carousel :itemsToShow="3.95" :wrapAround="true" class="max-w-1200px mx-auto h-200px mb-20">
-            <Slide v-for="item in 10" key="item">
-                <img src="https://p0.pipi.cn/mmdb/25bfd6dde7a3392c9557e2aef7fa7cd350db7.jpg?imageView2/1/w/160/h/220"
-                    alt="">
+        <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" class="max-w-1200px mx-auto h-240px my-8">
+            <Slide v-if="movieList" v-for="item in movieList" key="item">
+                <img  :src="`data:image/jpg;base64,` + item.movieImg" alt="" class="h-240px">
             </Slide>
             <template #addons>
-                <Pagination />
+                <!-- <Pagination /> -->
                 <Navigation />
             </template>
 
         </Carousel>
 
 
-        <div class="show-list max-w-1200px mx-auto">
+        <div class="show-list max-w-1200px mx-auto" v-if="currentMovie">
             <div class="movie-info">
                 <div>
-                    <h2 class="movie-name">还是觉得你最好</h2>
-                    <span class="score">9.1</span>
+                    <h2 class="movie-name">{{ currentMovie.movieCName }}</h2>
+                    <span class="score">{{ currentMovie.movieScore }}</span>
                 </div>
                 <div class="movie-describe">
                     <div>
                         <span class="key">时长 :</span>
-                        <span class="value">100分钟</span>
+                        <span class="value">{{ currentMovie.movieDuration }}</span>
                     </div>
                     <div>
                         <span class="key">类型 :</span>
                         <span class="value">
-                            <a href="#">爱情</a>
+                            <a href="#">{{ currentMovie.movieType }}</a>
                         </span>
                     </div>
                     <div>
                         <span class="key">主演 :</span>
-                        <span>主演 主演 主演</span>
+                        <span>{{ currentMovie.movieActor }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="show-date">
                 <span>观影时间</span>
-                <span class="date-item active" date-index="0">今天 9月20</span>
+                <!-- <span class="date-item active" date-index="0">今天 9月20</span>
                 <span class="date-item " date-index="1">今天 9月20</span>
                 <span class="date-item " date-index="2">今天 9月20</span>
-                <span class="date-item " date-index="3">今天 9月20</span>
+                <span class="date-item " date-index="3">今天 9月20</span> -->
             </div>
 
             <div class="plist-container">
@@ -79,34 +83,31 @@
                     <thead>
                         <tr>
                             <th>放映时间</th>
-                            <th>语言版本</th>
                             <th>放映厅</th>
                             <th>售价（元）</th>
                             <th>选座购票</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class>
+                        <tr v-for="item in currentScreen">
                             <td>
-                                <span class="begin-time">13:25</span>
+                                <span class="begin-time">{{ item.scheduleStartTime }}</span>
                                 <br>
-                                <span class="end-time">15:21散场</span>
+                                <!-- <span class="end-time">15:21散场</span> -->
                             </td>
-                            <td class="lang">
-                                粤语2D
-                            </td>
+
                             <td class="hall">
-                                GOLD CLASS 2厅(儿童需购票)
+                                {{item.scheduleHall.hallName}}
                             </td>
                             <td>
                                 <span class="sell-price">
-                                    <span class="stonefont">256</span>
+                                    <span class="stonefont">{{ item.schedulePrice }}</span>
                                 </span>
                             </td>
                             <td>
-                                <a href="#" class="buy-btn" @click="toPay">
+                                <span href="" class="buy-btn" @click="toPay(item,route.query.cinemaId)">
                                     选座购票
-                                </a>
+                                </span>
                             </td>
 
                         </tr>
@@ -126,25 +127,127 @@ import { ref, onMounted } from 'vue'
 
 import { Carousel, Pagination, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
-import {apiSelectCinemaById} from '@/api/cinema'
+import { apiGetHallList, apiGetMovieByCinemaId, apiSelectCinemaById, apiselectfromHall } from '@/api/cinema'
 
-import {useRouter,useRoute} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
-const toPay = () =>{
+const toPay = (data: any,cinemaId:any) => {
     router.push({
-        name:'Pay'
+        name: 'Pay',
+        query: {
+            scheduleId: data.id,
+            price: data.schedulePrice,
+            movieId: data.movieId,
+            cinemaName:data.scheduleHall.hallCinema.cinemaName,
+            hallName:data.scheduleHall.hallName,
+            scheduleStartTime:data.scheduleStartTime
+        }
     })
 }
 
 let cinema = ref({} as any)
 const route = useRoute()
-apiSelectCinemaById({id:route.query.cinemaId}).then((result)=>{
-    if(result.code==200){
+apiSelectCinemaById({ id: route.query.cinemaId }).then((result) => {
+    if (result.code == 200) {
         cinema.value = result.data
         cinema.value.cinemaScore = cinema.value.cinemaScore / 2
     }
 })
+
+let movieList = ref([] as any)
+apiGetMovieByCinemaId({ id: route.query.cinemaId }).then((result) => {
+    if (result.code == 200) {
+        let list = result.data
+        var arrId = [];
+        for (var item of list) {
+            if (arrId.indexOf(item['id']) == -1) {
+                arrId.push(item['id']);
+                movieList.value.push(item);
+            }
+        }
+
+        currentMovie.value = movieList.value[0]
+        apiGetHallList({ id: route.query.cinemaId }).then((result) => {
+            result.data.forEach((item: any) => {
+                apiselectfromHall({ id: item.id }).then((result) => {
+                    result.data.forEach((item: any) => {
+                        if (item.movieId == currentMovie.value.id) {
+                            currentScreen.value.push(item)
+                            console.log(currentScreen.value);
+                        }
+                    })
+                })
+            })
+        })
+
+    }
+})
+
+let currentMovie = ref()
+let currentScreen = ref<any[]>([])
+let index = 0
+
+onMounted(() => {
+
+
+
+    document.querySelector('.carousel__prev')?.addEventListener('click', () => {
+        currentScreen.value = []
+        if (index == 0) {
+            index = movieList.value.length - 1
+            currentMovie.value = movieList.value[index]
+
+        }
+        else {
+            index--
+            currentMovie.value = movieList.value[index]
+
+        }
+        apiGetHallList({ id: route.query.cinemaId }).then((result) => {
+            result.data.forEach((item: any) => {
+                apiselectfromHall({ id: item.id }).then((result) => {
+                    result.data.forEach((item: any) => {
+                        if (item.movieId == currentMovie.value.id) {
+                            currentScreen.value.push(item)
+                            console.log(currentScreen.value);
+                        }
+                    })
+                })
+            })
+        })
+
+    })
+    document.querySelector('.carousel__next')?.addEventListener('click', () => {
+        currentScreen.value = []
+
+
+        if (index == movieList.value.length - 1) {
+            index = 0
+            currentMovie.value = movieList.value[index]
+
+
+        }
+        else {
+            index++
+            currentMovie.value = movieList.value[index]
+
+        }
+        apiGetHallList({ id: route.query.cinemaId }).then((result) => {
+            result.data.forEach((item: any) => {
+                apiselectfromHall({ id: item.id }).then((result) => {
+                    result.data.forEach((item: any) => {
+                        if (item.movieId == currentMovie.value.id) {
+                            currentScreen.value.push(item)
+                        }
+                    })
+                })
+            })
+        })
+    })
+})
+
+
 
 
 

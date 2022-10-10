@@ -1,38 +1,17 @@
 <template>
   <div class="latest-news">
-    <h4 class="latest-header">最新资讯<a href="#" class="latest-all">全部></a><span class="arrow red-arrow"></span></h4>
 
-    <div class="latest-news-list clearfix">
+
+    <div class="latest-news-list clearfix" @click="toNewsDetail">
 
       <div class="latest-news-box">
         <a href="#"></a>
-        <img src="#">
-        <p class="latest-mews-title">-----</p>
+        <img class="rounded " :src="`data:image/jpg;base64,` + latestNews.img">
+        <p class="latest-mews-title truncate text-gray-800">{{ latestNews.consultTitle }}</p>
         <div class="info-box">
-          <span>----</span>
-          <span class="views-count">123</span>
+          <span class="views-count text-gray-500 mt-1 block text-sm">{{ latestNews.consultAnnouncer }}</span>
         </div>
       </div>
-
-<!--      <div class="latest-news-box">-->
-<!--        <a href="#"></a>-->
-<!--        <img src="#" alt>-->
-<!--        <p class="latest-mews-title">-&#45;&#45;&#45;&#45;</p>-->
-<!--        <div class="info-box">-->
-<!--          <span>&#45;&#45;&#45;&#45;</span>-->
-<!--          <span class="views-count">123</span>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <div class="latest-news-box">-->
-<!--        <a href="#"></a>-->
-<!--        <img src="#" alt>-->
-<!--        <p class="latest-mews-title">-&#45;&#45;&#45;&#45;</p>-->
-<!--        <div class="info-box">-->
-<!--          <span>&#45;&#45;&#45;&#45;</span>-->
-<!--          <span class="views-count">123</span>-->
-<!--        </div>-->
-<!--      </div>-->
 
 
     </div>
@@ -41,7 +20,23 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router';
 
+type Props = {
+  latestNews: any
+}
+
+const { latestNews } = defineProps<Props>()
+
+
+const toNewsDetail = () => {
+  router.push({
+    name:'NewsDetail',
+    query:{
+      id:latestNews.id
+    }
+  })
+}
 </script>
 
 <style>
@@ -55,7 +50,7 @@
   width: 230px;
   height: 190px;
   float: left;
-  margin: 0 20px 20px 0;
+  /* margin: 0 20px 20px 0; */
 }
 
 .latest-header {
@@ -80,5 +75,4 @@
   width: 230px;
   height: 129px;
 }
-
 </style>

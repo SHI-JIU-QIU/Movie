@@ -29,3 +29,15 @@ export const apiGetCarouselImg = () => {
         method: 'GET',
     })
 }
+
+
+
+export const apiselectMovieByName = (data:any) => {
+    return serve({
+        url: '/selectMovieByName',
+        method: 'GET',
+        params:{
+            name:data.name
+        }
+    })
+}

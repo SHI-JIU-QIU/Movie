@@ -17,7 +17,7 @@
                             }}
                             {{ movieDetail?.movieCountry }}上映</span></div>
                     <div class=" flex flex-col flex-1 justify-center ">
-                        <el-button color=" white" round class="mb-4 w-40" @click="toComment">评分</el-button>
+                        <el-button color=" white" round class="mb-4 w-40" @click="toComment">评论</el-button>
                         <el-button color=" #df2d2d" round class="w-40" @click="toCinemaList">购票</el-button>
                     </div>
                 </div>

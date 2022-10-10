@@ -1,10 +1,5 @@
 import serve from './index'
 
-type Res = {
-    msg?: string,
-    code: number,
-    data?: object
-}
 
 export const apiLogin = (data: any) => {
     return serve({
@@ -27,5 +22,40 @@ export const apiGetUserById = (data: any) => {
         url: '/selectUserById',
         method: 'GET',
         params: { id: data }
+    })
+}
+
+
+export const apiUpdateUser = (data: any) => {
+    return serve({
+        url: '/updateUser',
+        method: 'POST',
+        params: {
+            username: data.username,
+            email: data.email,
+            phone: data.phone,
+          
+        }
+    })
+}
+
+
+
+
+export const apimodifyUserPwd = (data: any) => {
+    return serve({
+        url: '/modifyUserPwd',
+        method: 'POST',
+        params: {
+            oldPwd: data.oldPwd,
+            newPwd: data.newPwd
+        }
+    })
+}
+
+export const apilogout = () => {
+    return serve({
+        url: '/logout',
+        method: 'GET',
     })
 }
