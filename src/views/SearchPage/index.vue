@@ -32,17 +32,50 @@
 <script setup lang='ts'>
 import { apiselectMovieByName } from '@/api/movie'
 import MovieCard from "@/components/MovieCard/index.vue";
-import { ref, inject } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRoute, onBeforeRouteUpdate,onBeforeRouteLeave } from 'vue-router'
+import { getCurrentInstance } from 'vue'
 
 
+type MovieDetail = {
+    id: number;
+    movieCName: string;
+    movieFName: string;
+    movieActor: string;
+    movieDirector: string;
+    movieDetail: string;
+    movieDuration: string;
+    movieType: string;
+    movieScore: number;
+    movieBoxOffice: number;
+    movieCommentCount: number;
+    movieReleaseDate: string;
+    movieCountry: string;
+    moviePicture: string;
+    movieState: number;
+    commentList?: any;
+    movieImg: string;
+}
 
-const route = useRoute()
-let movieList = ref([])
+const route: any = useRoute()
+let movieList = ref<MovieDetail[]>([])
 
 apiselectMovieByName({ name: route.query.keyword }).then((result) => {
     movieList.value = result.data
 })
+onBeforeRouteUpdate((to) => {
+    apiselectMovieByName({ name: to.query.keyword }).then((result) => {
+        movieList.value = result.data
+    })
+})
+
+const instance = getCurrentInstance();
+onBeforeRouteLeave(()=>{
+     instance?.proxy?.$Bus.emit('clear')
+})
+
+
+
 
 
 

@@ -8,10 +8,21 @@ import 'uno.css'
 import "element-plus/theme-chalk/el-notification.css";
 import "element-plus/theme-chalk/el-message.css";
 import 'animate.css';
+import mitt from 'mitt'
+
+declare module "vue" {
+    export interface ComponentCustomProperties {
+        $Bus: typeof Mit
+    }
+}
 
 
+
+const Mit = mitt()
 const pinia = createPinia()
+
 pinia.use(piniaPlugin({ key: 'pinia' }))
 
-
-createApp(App).use(pinia).use(router).mount('#app')
+const app = createApp(App)
+app.config.globalProperties.$Bus = Mit
+app.use(pinia).use(router).mount('#app')

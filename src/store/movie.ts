@@ -16,7 +16,6 @@ export const useMovieStore = defineStore('movieStore', {
     actions: {
         async reqHotPlayList() {
             let result = await apiHotPlayMovie('评价')
-
             if (result.code == 200) {
                 this.hotPlayList = result.data
             }

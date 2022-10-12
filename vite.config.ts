@@ -22,12 +22,9 @@ export default defineConfig({
     resolvers: [ElementPlusResolver()],
   }),
   unocss({
-    rules: [
-
-    ],
+    rules: [],
     presets: [presetAttributify(), presetUno(), presetIcons()],
     transformers: [
- 
       transformerDirective(),
     ],
   })],

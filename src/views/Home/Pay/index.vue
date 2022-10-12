@@ -7,34 +7,54 @@
         </el-steps>
 
         <router-view></router-view>
-      
+
 
     </div>
 </template>
 
 <script setup lang='ts'>
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+
+import { ref } from 'vue';
+import { useRoute, useRouter,onBeforeRouteUpdate } from 'vue-router';
 
 
 const active = ref(1)
-const route = useRoute()
+const route: any = useRoute()
+const router: any = useRouter()
+// console.log(router);
 
 
-if(route.name=='Order'){
-    active.value=1
-}
-else if(route.name=='PayOrder'){
-    active.value=2
-}
-else{
-    active.value=3
-}
+
+onBeforeRouteUpdate((to) => {
+     if (to.name == 'Order') {
+            active.value = 1
+        }
+        else if (to.name == 'PayOrder') {
+            active.value = 2
+        }
+        else {
+            active.value = 3
+        }
+})
+// onMounted(() => {
+//         console.log(newValue);
+//         if (newValue == 'Order') {
+//             active.value = 1
+//         }
+//         else if (newValue == 'PayOrder') {
+//             active.value = 2
+//         }
+//         else {
+//             active.value = 3
+//         }
+// })
+
+
+
 
 
 
 </script>
 
 <style scoped>
-
 </style>

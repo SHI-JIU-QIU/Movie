@@ -39,7 +39,8 @@
     <el-table-column label="操作" width="180" align="center">
       <template #default="scope">
         <el-button type="primary" v-if="scope.row.status == '已下单'" @click="pay(scope.$index, scope.row)">支付</el-button>
-        <el-button type="danger" v-if="scope.row.status == '支付成功'|| scope.row.status =='已下单'" @click="refund(scope.$index, scope.row)">退票</el-button>
+        <el-button type="danger" v-if="scope.row.status == '支付成功' || scope.row.status == '已下单'"
+          @click="refund(scope.$index, scope.row)">退票</el-button>
         <!-- <p class="operation">{{ scope.row.operation }}</p> -->
       </template>
     </el-table-column>
@@ -157,12 +158,33 @@ const refund = (index: any, item: any) => {
 }
 
 
-const pay=(index: any, item: any)=>{
-  apipayOrder({orderId:item.id}).then(()=>{
-     ElMessage({
-        message: '支付成功',
-        type: 'success',
-      })
+const pay = (index: any, item: any) => {
+  apipayOrder({ orderId: item.id }).then(() => {
+    ElMessage({
+      message: '支付成功',
+      type: 'success',
+    })
+    apiselectOrderByUserName({ username: userStore.user.username }).then((result) => {
+      if (result.code == 200) {
+        orderList.value = []
+        result.data.forEach((item: any) => {
+          let index: Index = item.orderState
+          orderList.value.push({
+            name: item.orderSchedule.scheduleMovie.movieCName + '     ' + item.orderSchedule.scheduleMovie.movieFName,
+            cinema: item.orderSchedule.scheduleHall.hallCinema.cinemaName,
+            time: item.orderTime.slice(0, 19).replace('T', ' '),
+            id: item.id,
+            quantity: '1',
+            amount: item.orderPrice,
+            status: status[index],
+            hall: item.orderSchedule.scheduleHall.hallName,
+            position: item.orderPosition,
+            url: `data:image/png;base64,` + item.orderSchedule.scheduleMovie.movieImg
+          })
+        });
+      }
+
+    })
   })
 }
 

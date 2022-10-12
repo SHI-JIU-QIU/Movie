@@ -89,6 +89,7 @@ import { ref, inject } from 'vue'
 import { useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus'
 import router from '@/router';
+import useStore from '@/store';
 
 const route = useRoute()
 const checkList = ref<any[]>([])
@@ -127,7 +128,15 @@ apiselectOrdersByScheduleId({ id: route.query.scheduleId }).then((result) => {
 
 const reload = inject('reload')
 let orderIdList = ref()
+const { userStore } = useStore()
 const buy = () => {
+    // if (Object.keys(userStore.user).length == 0) {
+    //     ElMessage({
+    //         message: '请先登录',
+    //         type: 'error',
+    //     })
+    // }
+
     apiBuyTickets({ scheduleId: route.query.scheduleId, price: route.query.price, position: checkList.value.slice(buyedLength.value, checkList.value.length) }).then((result) => {
         if (result.code == 200) {
             orderIdList.value = result.data

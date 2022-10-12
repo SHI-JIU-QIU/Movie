@@ -37,7 +37,8 @@ import { useRouter, useRoute } from "vue-router";
 import useStore from '@/store/index'
 import { useCookies } from "@vueuse/integrations/useCookies"
 import { apilogout } from "@/api/user";
-
+import { getCurrentInstance } from 'vue'
+const instance = getCurrentInstance()
 const { userStore } = useStore()
 
 let user: any = userStore.user
@@ -56,8 +57,12 @@ let avatar = computed(() => {
 
 
 
-const activeIndex = ref("1");
+
 const input2 = ref("");
+instance?.proxy?.$Bus.on('clear', () => {
+  input2.value = ''
+})
+
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
@@ -105,7 +110,6 @@ const exit = (): void => {
   userStore.$reset()
   localStorage.removeItem('pinia-userStore')
   apilogout()
-
   reload()
   console.log('exit');
 
@@ -118,6 +122,7 @@ const toSearch = () => {
       keyword: input2.value
     }
   })
+
 }
 
 </script>
