@@ -144,6 +144,7 @@ const buy = () => {
                 message: '下单成功',
                 type: 'success',
             })
+          
             router.push({
                 name: 'PayOrder',
                 query: {

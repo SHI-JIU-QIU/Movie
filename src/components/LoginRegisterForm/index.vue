@@ -10,13 +10,13 @@
         class="max-w-screen-md min-h-100 mx-auto flex flex-row border-0 relative top-50% transform -translate-y-50%">
         <div :style="`background-image:url(${bg2}) `" class="h-full bg-cover bg-center w-1/4"></div>
 
-        <el-form ref="ruleFormRef" :model="modelValue" status-icon  label-position="top" hide-required-asterisk="true"
+        <el-form ref="ruleFormRef" :model="modelValue" status-icon label-position="top" hide-required-asterisk="true"
             :class="formStyle">
 
             <el-form-item v-for="item in config.formItems" :key="item.field" :label="item.label" :rules="item.rules"
                 :prop="item.field" :class="itemStyle">
-                <el-input v-if="item.type==='input'||'password'" :show-password="item.type === 'password'"
-                    :modelValue="modelValue[`${item.field}`]" @update:modelValue=" valueChange($event,item.field)" />
+                <el-input v-if="item.type === 'input' || 'password'" :show-password="item.type === 'password'"
+                    :modelValue="modelValue[`${item.field}`]" @update:modelValue="valueChange($event, item.field)" />
             </el-form-item>
 
             <el-form-item class="flex mt-6">
@@ -35,7 +35,7 @@
 import bg2 from "@/assets/bg2.jpg"
 import { reactive, ref } from "vue"
 import type { FormRules, FormInstance } from 'element-plus'
-import { useRouter ,useRoute} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import useStore from '@/store/index'
 import { IForm } from './type'
@@ -48,7 +48,7 @@ type Props = {
     modelValue: any
 }
 
-let props=defineProps<Props>()
+let props = defineProps<Props>()
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -77,54 +77,54 @@ const submitForm = (formEl: FormInstance | undefined) => {
     formEl.validate((valid) => {
         if (valid) {
             console.log("submit!");
-           if(route.path.includes('login')){
-            userStore.reqLogin(props.modelValue).then(
-                (flag: boolean) => {
-                    if (flag) {
-                        router.push({
-                            name: 'Home'
-                        })
-                        ElNotification({
-                            title: 'Success',
-                            message: '登录成功',
-                            type: 'success',
-                            duration: 3000
-                        })
+            if (route.path.includes('login')) {
+                userStore.reqLogin(props.modelValue).then(
+                    (flag: any) => {
+                        if (flag) {
+                            router.push({
+                                name: 'Home'
+                            })
+                            ElNotification({
+                                title: 'Success',
+                                message: '登录成功',
+                                type: 'success',
+                                duration: 3000
+                            })
+                        }
+                        else {
+                            ElNotification({
+                                title: 'Error',
+                                message: '登录失败',
+                                type: 'error',
+                            })
+                        }
                     }
-                    else {
-                        ElNotification({
-                            title: 'Error',
-                            message: '登录失败',
-                            type: 'error',
-                        })
+                )
+            }
+            else if (route.path.includes('register')) {
+                userStore.reqRegister(props.modelValue).then(
+                    (flag: boolean) => {
+                        if (flag) {
+                            router.push({
+                                name: 'Login'
+                            })
+                            ElNotification({
+                                title: 'Success',
+                                message: '注册成功',
+                                type: 'success',
+                                duration: 3000
+                            })
+                        }
+                        else {
+                            ElNotification({
+                                title: 'Error',
+                                message: '注册失败',
+                                type: 'error',
+                            })
+                        }
                     }
-                }
-            )
-           }
-           else if(route.path.includes('register')){
-            userStore.reqRegister(props.modelValue).then(
-                (flag: boolean) => {
-                    if (flag) {
-                        router.push({
-                            name: 'Login'
-                        })
-                        ElNotification({
-                            title: 'Success',
-                            message: '注册成功',
-                            type: 'success',
-                            duration: 3000
-                        })
-                    }
-                    else {
-                        ElNotification({
-                            title: 'Error',
-                            message: '注册失败',
-                            type: 'error',
-                        })
-                    }
-                }
-            )
-           }
+                )
+            }
 
         } else {
             console.log("error submit!");

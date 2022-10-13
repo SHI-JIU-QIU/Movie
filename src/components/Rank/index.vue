@@ -1,10 +1,10 @@
 <template>
   <div class="rank">
-    <div class="rank-title">{{title}}</div>
+    <div class="rank-title">{{ title }}</div>
     <ul class="rank-info">
-      <li v-for="(item,index) in data" :key="index">
-        <span class="rank-num">{{index+1}}</span>
-        <span class="rank-name">{{item.rankName}}</span>
+      <li v-for="(item, index) in data" :key="index" @click="toDetail(item.id)">
+        <span class="rank-num">{{ index + 1 }}</span>
+        <span class="rank-name">{{ item.rankName }}</span>
         <slot name="detail" :rankDetail="item.rankDetail"></slot>
       </li>
     </ul>
@@ -12,11 +12,40 @@
 </template>
 
 <script setup lang="ts">
-const { data } = defineProps<{
+import { useRouter } from 'vue-router'
+
+const { data, title } = defineProps<{
   data: any;
   title: string
 }>();
 
+const router = useRouter()
+const toDetail = (id: number) => {
+  if (title == '今日票房') {
+    router.push({
+      name: 'MovieDetail',
+      query: {
+        id: id
+      }
+    })
+  }
+  else if (title == '热门影院') {
+    router.push({
+      name: 'CinemaDetail',
+      query: {
+        cinemaId: id
+      }
+    })
+  }
+  else {
+    router.push({
+      name: 'NewsDetail',
+      query: {
+        id: id
+      }
+    })
+  }
+}
 
 
 

@@ -44,7 +44,8 @@ export const apipayOrder = (data: any) => {
         url: '/payOrder',
         method: 'POST',
         params: {
-            orderId: data.orderId
+            orderId: data.orderId,
+            userId: data.userId
         }
     })
 }

@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
-     
+
       </el-form-item>
     </el-form>
 
@@ -60,6 +60,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       apiUpdateUser({ username: ruleForm.username, phone: ruleForm.phone, email: ruleForm.email }).then((result) => {
         userStore.reqGetUserById(userStore.user.id)
+        ElMessage({
+          showClose: true,
+          message: '修改成功',
+          type: 'success',
+        })
       })
       console.log('submit!')
     } else {
@@ -69,7 +74,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const imageUrl = ref( `data:image/png;base64,`+userStore.user.avatar)
+const imageUrl = ref(`data:image/png;base64,` + userStore.user.avatar)
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile

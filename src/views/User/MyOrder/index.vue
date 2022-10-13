@@ -151,6 +151,7 @@ const refund = (index: any, item: any) => {
           });
         }
 
+
       })
 
     }
@@ -159,11 +160,12 @@ const refund = (index: any, item: any) => {
 
 
 const pay = (index: any, item: any) => {
-  apipayOrder({ orderId: item.id }).then(() => {
+  apipayOrder({ orderId: item.id ,userId:userStore.user.id}).then(() => {
     ElMessage({
       message: '支付成功',
       type: 'success',
     })
+    userStore.reqGetUserById(userStore.user.id)
     apiselectOrderByUserName({ username: userStore.user.username }).then((result) => {
       if (result.code == 200) {
         orderList.value = []

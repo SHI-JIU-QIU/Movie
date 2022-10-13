@@ -59,3 +59,11 @@ export const apilogout = () => {
         method: 'GET',
     })
 }
+
+
+export const apiselectMyBalance = () => {
+    return serve({
+        url: '/selectMyBalance',
+        method: 'GET',
+    })
+}

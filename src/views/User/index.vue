@@ -29,6 +29,13 @@
         </el-form>
 
       </el-tab-pane>
+
+
+      <el-tab-pane label="我的账户" class="changePass">
+
+        <div class="mx-auto w-fit h-200px text-gray-600 font-semibold	text-2xl">账户余额：<span class="text-red-600 leading-200px">{{ userStore.user.balance }}</span>元</div>
+
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -41,9 +48,10 @@ import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { apimodifyUserPwd } from '@/api/user';
 import router from '@/router'
+import useStore from '@/store'
 
 const ruleFormRef = ref<FormInstance>()
-
+const { userStore } = useStore()
 
 
 const validatePass = (rule: any, value: any, callback: any) => {
@@ -105,6 +113,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
+
 
 
 </script>

@@ -9,7 +9,8 @@ import useStore from '@/store/index'
 const title = ref<string>("热门资讯");
 
 type hotNews = {
-  rankName: string;
+  rankName: string
+  id: number
 };
 
 let data = ref<hotNews[]>([]);
@@ -17,7 +18,7 @@ let data = ref<hotNews[]>([]);
 const { newsStore } = useStore()
 newsStore.reqGetHotNewsList().then(() => {
   newsStore.newsList.slice(0, 5).forEach((item) => {
-    data.value.push({ rankName: item.consultTitle })
+    data.value.push({ id: item.id, rankName: item.consultTitle })
   })
 })
 

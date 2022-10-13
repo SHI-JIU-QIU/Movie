@@ -15,6 +15,7 @@ import useStore from '@/store/index';
 import { } from '@/api/movie'
 
 type boxOffice = {
+  id: number
   rankName: string;
   rankDetail: string;
 };
@@ -29,10 +30,10 @@ const { movieStore } = useStore()
 movieStore.$subscribe(
   () => {
     movieStore.hotPlayList.slice(0, 5).forEach((item: any) => {
-      if(data.value.length==5){
+      if (data.value.length == 5) {
         return
       }
-      data.value.push({ rankName: item.movieCName, rankDetail: item.movieBoxOffice })
+      data.value.push({ id: item.id, rankName: item.movieCName, rankDetail: item.movieBoxOffice })
     });
 
   }

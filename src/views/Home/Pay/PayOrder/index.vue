@@ -50,9 +50,11 @@ import router from '@/router';
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import useStore from '@/store'
 
 
 const route = useRoute()
+const { userStore } = useStore()
 let movie = ref()
 apiGetMovieById(route.query.movieId).then((result) => {
     movie.value = result.data
@@ -63,8 +65,9 @@ const pay = async () => {
 
     if (route.query.orderIdList instanceof Array) {
         for (let item of (route.query.orderIdList as any[])) {
-            await apipayOrder({ orderId: item }).then((result) => {
+            await apipayOrder({ orderId: item, userId: userStore.user.id }).then((result) => {
                 if (result.code == 200) {
+                    userStore.reqGetUserById(userStore.user.id)
                     flag = true
                 }
                 else {
@@ -72,6 +75,7 @@ const pay = async () => {
                 }
             })
         }
+
         if (flag == true) {
             ElMessage({
                 message: '支付成功',
@@ -86,10 +90,12 @@ const pay = async () => {
     else {
         await apipayOrder({ orderId: route.query.orderIdList }).then((result) => {
             if (result.code == 200) {
+                userStore.reqGetUserById(userStore.user.id)
                 ElMessage({
                     message: '支付成功',
                     type: 'success',
                 })
+
                 router.push({
                     name: 'Success'
                 })

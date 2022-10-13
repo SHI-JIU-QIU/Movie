@@ -20,6 +20,7 @@ import { apiSelectCinemaByScore } from "@/api/cinema";
 
 
 type hotCinema = {
+  id:number
   rankName: string;
   rankDetail: number;
 };
@@ -32,7 +33,7 @@ apiSelectCinemaByScore().then((result)=>{
     result.data.slice(0,5).forEach( (item:any) => {
       
       
-      data?.value?.push({rankName:item.cinemaName,rankDetail:item.cinemaScore /2})
+      data?.value?.push({id:item.id,rankName:item.cinemaName,rankDetail:item.cinemaScore /2})
  
       
     });

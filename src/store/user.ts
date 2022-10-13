@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { apiLogin, apiRegister ,apiGetUserById} from '@/api/user'
+import { apiLogin, apiRegister, apiGetUserById } from '@/api/user'
 
 
 interface User {
@@ -11,6 +11,7 @@ interface User {
     phone: string
     type: number
     username: string
+    balance:number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -27,8 +28,10 @@ export const useUserStore = defineStore('userStore', {
         async reqLogin(data: any) {
             let result = await apiLogin(data)
             if (result.code == 200) {
-                this.user = result.data
-                return true
+                if (result.data.type == 0) {
+                    this.user = result.data
+                    return true
+                }
             }
             else {
                 return false
